@@ -1,0 +1,88 @@
+.header {
+  background-color: #562b81;
+}
+
+.form-image {
+  max-height: 12rem;
+  margin-bottom: 1rem;
+  aspect-ratio: auto;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.input-height {
+  height: 2.5rem;
+}
+
+.purple-outline {
+  outline-color: #562b81;
+}
+
+.input-b-radius {
+  border-radius: 5px;
+}
+
+.text-padding {
+  padding: 0.5rem;
+}
+
+.input-b-color {
+  border: 1px solid #b6b6b6;
+}
+
+.entry-ul {
+  list-style: none;
+  padding: 0;
+}
+
+.entries-link {
+  text-decoration: none;
+  font-size: 0.75em;
+  outline: none;
+  padding-left: 1rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline;
+  margin: 0;
+}
+
+.form-link {
+  text-decoration: none;
+  outline: none;
+  background-color: #562b81;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+.delete-entry-button {
+  border: none;
+  text-decoration: underline;
+  color: red;
+}
+
+.modal-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  height: 160px;
+  width: 400px;
+  background-color: #fff;
+  border-radius: 5px;
+  font-size: 1.3rem;
+}
+
+.modal-button {
+  border-radius: 5px;
+  height: 50px;
+  width: 120px;
+  border: none;
+  font-size: 1.3rem;
+}
