@@ -11,6 +11,7 @@ create table "public"."users" (
   "username"       text not null,
   "hashedPassword" text not null,
   "createdAt"      timestamptz(6) not null default now(),
+  -- "updatedAt"      timestamptz(6) not null default now(),
   primary key ("userId"),
   unique ("username")
 );
@@ -21,5 +22,6 @@ create table "public"."entries" (
   "title"      text    not null,
   "notes"      text    not null,
   "photoUrl"   text    not null,
+  "updatedAt"      timestamptz(6) not null default now(),
   primary key ("entryId")
 );

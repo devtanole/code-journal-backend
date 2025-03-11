@@ -89,7 +89,7 @@ where "username" = $1;
   }
 });
 
-app.get('/api/entries', authMiddleware, async (req, res, next) => {
+app.get('/api/entries', async (req, res, next) => {
   try {
     const sql = `
     select * from "entries";
@@ -147,15 +147,56 @@ app.post('/api/entries', authMiddleware, async (req, res, next) => {
   }
 });
 
-// app.put('/api/entries/:entryId', authMiddleware, async(req, res, next) => {
-//   try{
-//     const entryId = Number(req.params.entryId);
-//     if (!Number.isInteger(entryId) || entryId < 1) {
-//       throw new ClientError(400, 'entryId must be a positive integer');
-//     }
-//     const {}
-//   }
-// })
+app.put('/api/entries/:entryId', authMiddleware, async (req, res, next) => {
+  try {
+    const entryId = Number(req.params.entryId);
+    if (!Number.isInteger(entryId) || entryId < 1) {
+      throw new ClientError(400, 'entryId must be a positive integer');
+    }
+    const { title, notes, photoUrl } = req.body;
+    const sql = `
+    update "entries"
+      set "updatedAt" = now(),
+          "title" = $1,
+          "notes" = $2,
+          "photoUrl" = $3
+        where "entryId" = $4 and "userId" = $5
+        returning *
+    `;
+    const params = [title, notes, photoUrl, entryId, req.user?.userId];
+    const result = await db.query(sql, params);
+    const updatedEntry = result.rows[0];
+    if (!updatedEntry) {
+      throw new ClientError(404, `cannot find entry of entry Id ${entryId}`);
+    }
+    res.json(updatedEntry);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.delete('/api/entries/:entryId', authMiddleware, async (req, res, next) => {
+  try {
+    const { entryId } = req.params;
+    if (!Number.isInteger(+entryId)) {
+      throw new ClientError(400, `Non-integer entryId: ${entryId}`);
+    }
+    const deleteEntrySql = `
+    delete from "entries"
+    where "entryId" = $1
+    returning *;
+    `;
+    const params = [entryId];
+    const result = await db.query(deleteEntrySql, params);
+    const [entry] = result.rows;
+    if (!entry) throw new ClientError(404, `entry ${entryId} not found`);
+    res.status(204).json(entry);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {
   console.log(`express server listening on port ${process.env.PORT}`);
