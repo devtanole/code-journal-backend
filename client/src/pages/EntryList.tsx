@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaPencilAlt } from 'react-icons/fa';
-import { Entry, readEntries } from '../data';
+import { Entry, readEntries } from '../lib/data';
 
 export function EntryList() {
   const [entries, setEntries] = useState<Entry[]>([]);

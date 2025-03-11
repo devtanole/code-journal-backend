@@ -1,6 +1,8 @@
 import { Link, Outlet } from 'react-router-dom';
+import { useUser } from './useUser';
 
 export function NavBar() {
+  const { user } = useUser();
   return (
     <>
       <header className="purple-background">
@@ -11,6 +13,15 @@ export function NavBar() {
               <Link to="/" className="entries-link white-text">
                 <h3>Entries</h3>
               </Link>
+              {user ? (
+                <Link to="/" className="entries-link white-text">
+                  <h3>Sign Out</h3>
+                </Link>
+              ) : (
+                <Link to="/auth/sign-in" className="entries-link white-text">
+                  <h3>Sign In</h3>
+                </Link>
+              )}
             </div>
           </div>
         </div>

@@ -6,7 +6,7 @@ import {
   readEntry,
   removeEntry,
   updateEntry,
-} from '../data';
+} from '../lib/data';
 
 /**
  * Form that adds or edits an entry.
