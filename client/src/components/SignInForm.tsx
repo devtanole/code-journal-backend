@@ -43,11 +43,11 @@ export function SignInForm() {
   }
 
   return (
-    <div className="container">
+    <div className="p-3 container">
       <h2 className="text-xl font-bold">Sign In</h2>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-wrap mb-1">
-          <div className="w-1/2">
+          <div>
             <label className="mb-1 block">
               Username
               <input
@@ -70,13 +70,12 @@ export function SignInForm() {
         </div>
         <button
           disabled={isLoading}
-          className="align-middle text-center border rounded py-1 px-3 bg-blue-600 text-white">
+          className="mb-2 align-middle text-center border rounded py-1 px-3 bg-blue-600 text-white">
           Sign In
         </button>
       </form>
-      <Link
-        to="/auth/sign-up"
-        className="align-middle text-center border rounded py-1 px-3 bg-blue-600 text-white">
+      <span>New user?</span>
+      <Link to="/auth/sign-up" className="ml-2">
         Sign Up
       </Link>
     </div>

@@ -33,7 +33,7 @@ export function RegistrationForm() {
       alert(
         `Successfully registered ${user.username} as userId ${user.userId}.`
       );
-      navigate('auth/sign-in');
+      navigate('/auth/sign-in');
     } catch (err) {
       alert(`Error registering user: ${err}`);
     } finally {
@@ -42,11 +42,11 @@ export function RegistrationForm() {
   }
 
   return (
-    <div className="container">
+    <div className="p-3 container">
       <h2 className="text-xl font-bold">Register</h2>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-wrap mb-1">
-          <div className="w-1/2">
+          <div>
             <label className="mb-1 block">
               Username
               <input
@@ -69,13 +69,12 @@ export function RegistrationForm() {
         </div>
         <button
           disabled={isLoading}
-          className="align-middle text-center border rounded py-1 px-3 bg-blue-600 text-white">
+          className="mb-2 align-middle text-center border rounded py-1 px-3 bg-blue-600 text-white">
           Register
         </button>
       </form>
-      <Link
-        to="/auth/sign-in"
-        className="align-middle text-center border rounded py-1 px-3 bg-blue-600 text-white">
+      <span>Already registered?</span>
+      <Link to="/auth/sign-in" className=" ml-2">
         Sign In
       </Link>
     </div>

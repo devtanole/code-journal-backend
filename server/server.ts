@@ -89,12 +89,15 @@ where "username" = $1;
   }
 });
 
-app.get('/api/entries', async (req, res, next) => {
+app.get('/api/entries', authMiddleware, async (req, res, next) => {
   try {
     const sql = `
-    select * from "entries";
+    select * from "entries"
+    where "userId" = $1
+    order by "entryId" desc;
     `;
-    const result = await db.query(sql);
+    const params = [req.user?.userId];
+    const result = await db.query(sql, params);
     const total = result.rows;
     if (!total) {
       throw new ClientError(404, `entries not found`);
@@ -113,9 +116,9 @@ app.get('/api/entries/:entryId', authMiddleware, async (req, res, next) => {
     }
     const sql = `
     select * from "entries"
-    where "entryId" = $1;
+    where "entryId" = $1 and "userId" =$2;
     `;
-    const params = [entryId];
+    const params = [entryId, req.user?.userId];
     const result = await db.query<Entry>(sql, params);
     const entry = result.rows[0];
     if (!entry) {
@@ -134,11 +137,11 @@ app.post('/api/entries', authMiddleware, async (req, res, next) => {
       throw new ClientError(400, `title, notes and photoURL are required`);
     }
     const sql = `
-    insert into "entries" ("title", "notes", "photoUrl")
-    values ($1, $2, $3)
+    insert into "entries" ("title", "notes", "photoUrl", "userId")
+    values ($1, $2, $3, $4)
     returning *;
     `;
-    const params = [title, notes, photoUrl];
+    const params = [title, notes, photoUrl, req.user?.userId];
     const result = await db.query(sql, params);
     const entry = result.rows[0];
     res.status(201).json(entry);
@@ -164,6 +167,7 @@ app.put('/api/entries/:entryId', authMiddleware, async (req, res, next) => {
         returning *
     `;
     const params = [title, notes, photoUrl, entryId, req.user?.userId];
+    console.log(' req.user?.userId:', req.user?.userId);
     const result = await db.query(sql, params);
     const updatedEntry = result.rows[0];
     if (!updatedEntry) {
