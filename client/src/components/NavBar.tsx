@@ -1,8 +1,14 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useUser } from './useUser';
 
 export function NavBar() {
-  const { user } = useUser();
+  const { user, handleSignOut } = useUser();
+  const navigate = useNavigate();
+  function handleClick(): void {
+    handleSignOut();
+    navigate('/');
+  }
+
   return (
     <>
       <header className="purple-background">
@@ -14,9 +20,11 @@ export function NavBar() {
                 <h3>Entries</h3>
               </Link>
               {user ? (
-                <Link to="/" className="entries-link white-text">
+                <button
+                  onClick={handleClick}
+                  className="entries-link white-text">
                   <h3>Sign Out</h3>
-                </Link>
+                </button>
               ) : (
                 <Link to="/auth/sign-in" className="entries-link white-text">
                   <h3>Sign In</h3>
