@@ -5,6 +5,13 @@ import argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
 import express from 'express';
 import { ClientError, authMiddleware, errorMiddleware } from './lib/index.js';
+import { seedDb } from './seedDb.js';
+
+export type User = {
+  userId: number;
+  username: string;
+  hashedPassword: string;
+};
 
 type Entry = {
   entryId?: number;
@@ -18,7 +25,7 @@ type Auth = {
   password: string;
 };
 
-const db = new pg.Pool({
+export const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false,
@@ -202,7 +209,12 @@ app.delete('/api/entries/:entryId', authMiddleware, async (req, res, next) => {
 
 app.use(errorMiddleware);
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, async () => {
   console.log(`express server listening on port ${process.env.PORT}`);
   console.log('code-journal-backend');
+  try {
+    await seedDb();
+  } catch (error) {
+    console.error('Error seeding', error);
+  }
 });
