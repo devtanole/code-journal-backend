@@ -11,8 +11,8 @@ export function NavBar() {
 
   return (
     <>
-      <header className="purple-background">
-        <div className=" container">
+      <header className="purple-background w-full">
+        <div className="container">
           <div className="row">
             <div className="column-full d-flex align-center">
               <h1 className="white-text">Code Journal</h1>

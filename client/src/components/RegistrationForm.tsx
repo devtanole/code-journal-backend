@@ -26,10 +26,6 @@ export function RegistrationForm() {
         throw new Error(`fetch Error ${res.status}`);
       }
       const user = (await res.json()) as User;
-      console.log('Registered', user);
-      console.log(
-        `You can check the database with: psql -d userManagement -c 'select * from users'`
-      );
       alert(
         `Successfully registered ${user.username} as userId ${user.userId}.`
       );
@@ -42,41 +38,41 @@ export function RegistrationForm() {
   }
 
   return (
-    <div className="p-3 container">
-      <h2 className="text-xl font-bold">Register</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="flex flex-wrap mb-1">
-          <div>
-            <label className="mb-1 block">
-              Username
-              <input
-                required
-                name="username"
-                type="text"
-                className="block border border-gray-600 rounded p-2 h-8 w-full mb-2"
-              />
-            </label>
-            <label className="mb-1 block">
-              Password
-              <input
-                required
-                name="password"
-                type="password"
-                className="block border border-gray-600 rounded p-2 h-8 w-full mb-2"
-              />
-            </label>
-          </div>
-        </div>
-        <button
-          disabled={isLoading}
-          className="mb-2 align-middle text-center border rounded py-1 px-3 bg-blue-600 text-white">
-          Register
-        </button>
-      </form>
-      <span>Already registered?</span>
-      <Link to="/auth/sign-in" className=" ml-2">
-        Sign In
-      </Link>
+    <div className="min-h-screen flex flex-col items-center pt-12 px-4 bg-white text-black">
+      <div className="w-full max-w-md p-6 border border-gray-300 rounded-md shadow-sm">
+        <h2 className="text-xl font-bold mb-4">Register</h2>
+        <form onSubmit={handleSubmit}>
+          <label className="block mb-3">
+            Username
+            <input
+              required
+              name="username"
+              type="text"
+              className="mt-1 block w-full border border-gray-400 rounded p-2"
+            />
+          </label>
+          <label className="block mb-3">
+            Password
+            <input
+              required
+              name="password"
+              type="password"
+              className="mt-1 block w-full border border-gray-400 rounded p-2"
+            />
+          </label>
+          <button
+            disabled={isLoading}
+            className="w-full py-2 rounded bg-purple-800 text-white hover:bg-gray-900 disabled:opacity-50">
+            {isLoading ? 'Registering...' : 'Register'}
+          </button>
+        </form>
+        <p className="mt-4 text-center text-gray-700">
+          Already registered?{' '}
+          <Link to="/auth/sign-in" className="text-blue-600 hover:underline">
+            Sign In
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }
