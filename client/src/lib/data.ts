@@ -3,6 +3,7 @@ export type Entry = {
   title: string;
   notes: string;
   photoUrl: string;
+  createdAt?: string;
 };
 
 import { User } from '../components/UserContext';

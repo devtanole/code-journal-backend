@@ -45,7 +45,16 @@ export function EntryForm() {
     event.preventDefault();
     try {
       const formData = new FormData(event.currentTarget);
-      const newEntry = Object.fromEntries(formData) as unknown as Entry;
+      // Convert FormData entries to a plain object with string values
+      const dataObj = Object.fromEntries(formData) as Record<string, string>;
+
+      const newEntry: Entry = {
+        title: dataObj.title || '',
+        notes: dataObj.notes || '',
+        photoUrl: dataObj.photoUrl || '',
+        createdAt: new Date().toISOString(),
+      };
+
       if (isEditing) {
         updateEntry({ ...entry, ...newEntry });
       } else {

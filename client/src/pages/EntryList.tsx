@@ -63,6 +63,14 @@ type EntryProps = {
   entry: Entry;
 };
 function EntryCard({ entry }: EntryProps) {
+  const displayDate = entry.createdAt
+    ? new Date(entry.createdAt).toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
+    : 'Unknown date';
+
   return (
     <li>
       <div className="row">
@@ -70,7 +78,7 @@ function EntryCard({ entry }: EntryProps) {
           <img
             className="input-b-radius form-image"
             src={entry.photoUrl}
-            alt=""
+            alt="entry photo"
           />
         </div>
         <div className="column-half">
@@ -82,6 +90,7 @@ function EntryCard({ entry }: EntryProps) {
               </Link>
             </div>
           </div>
+          <p className="text-sm text-gray-400 mb-2">Date: {displayDate}</p>
           <p>{entry.notes}</p>
         </div>
       </div>
