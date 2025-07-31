@@ -2,13 +2,18 @@ import axios from 'axios';
 
 interface MediaProps {
   onUpload: (url: string) => void;
+  onPreview: (previewUrl: string) => void;
   disabled?: boolean;
 }
 
-export function MediaUploads({ onUpload, disabled }: MediaProps) {
+export function MediaUploads({ onUpload, onPreview, disabled }: MediaProps) {
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    // Show a local preview
+    const previewUrl = URL.createObjectURL(file);
+    onPreview(previewUrl);
 
     const formData = new FormData();
     formData.append('file', file);

@@ -98,6 +98,8 @@ app.get('/api/entries', authMiddleware, async (req, res, next) => {
     `;
     const params = [req.user?.userId];
     const result = await db.query(sql, params);
+    console.log('Fetching entries for user:', req.user?.userId);
+
     const total = result.rows;
     if (!total) {
       throw new ClientError(404, `entries not found`);
@@ -132,16 +134,18 @@ app.get('/api/entries/:entryId', authMiddleware, async (req, res, next) => {
 
 app.post('/api/entries', authMiddleware, async (req, res, next) => {
   try {
-    const { title, notes, photoUrl } = req.body;
+    const { title, notes, photoUrl, createdAt } = req.body;
+
     if (!title || !notes || !photoUrl) {
       throw new ClientError(400, `title, notes and photoURL are required`);
     }
     const sql = `
-    insert into "entries" ("title", "notes", "photoUrl", "userId")
-    values ($1, $2, $3, $4)
-    returning *;
-    `;
-    const params = [title, notes, photoUrl, req.user?.userId];
+  insert into "entries" ("title", "notes", "photoUrl", "createdAt", "userId")
+  values ($1, $2, $3, $4, $5)
+  returning *;
+`;
+
+    const params = [title, notes, photoUrl, createdAt, req.user?.userId];
     const result = await db.query(sql, params);
     const entry = result.rows[0];
     res.status(201).json(entry);
