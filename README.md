@@ -16,7 +16,7 @@ Note: This project was originally a pair project during my software engineering 
 
 ⚙️ Full Express backend with REST API routes
 
-🛠️ Tech Stack <br>
+🛠️ Tech Stack: <br>
 <strong> Frontend </strong>
 
 React (Vite)
