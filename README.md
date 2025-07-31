@@ -1,4 +1,4 @@
-📝 Code Journal
+📝 Code Journal <br>
 A full-stack journaling app that allows users to create, view, update, and delete personal entries. Each entry includes a title, notes, and an optional image uploaded through Cloudinary. The app features a clean UI, persistent storage via a backend database, and basic user authentication.
 
 Note: This project was originally a pair project during my software engineering bootcamp. I later revisited it independently to refactor the codebase, clean up the UI, and implement final features such as image uploads and improved error handling.
@@ -16,7 +16,7 @@ Note: This project was originally a pair project during my software engineering 
 
 ⚙️ Full Express backend with REST API routes
 
-🛠️ Tech Stack
+🛠️ Tech Stack <br>
 <strong> Frontend </strong>
 
 React (Vite)
