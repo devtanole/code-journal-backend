@@ -1,20 +1,41 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useUser } from './useUser';
 
 export function NavBar() {
+  const { user, handleSignOut } = useUser();
+  const navigate = useNavigate();
+  function handleClick(): void {
+    handleSignOut();
+    navigate('/');
+  }
+
   return (
     <>
-      <header className="purple-background">
-        <div className="container">
-          <div className="row">
-            <div className="column-full d-flex align-center">
-              <h1 className="white-text">Code Journal</h1>
-              <Link to="/" className="entries-link white-text">
-                <h3>Entries</h3>
+      <header className="bg-purple-700 w-full">
+        <nav className="max-w-screen-xl mx-auto px-6 py-4 flex items-center justify-between">
+          <h1 className="text-white text-2xl font-bold">Code Journal</h1>
+
+          <div className="flex items-center space-x-6">
+            <Link to="/" className="text-white hover:underline">
+              Entries
+            </Link>
+
+            {user ? (
+              <button
+                onClick={handleClick}
+                className="text-purple hover:underline"
+                type="button">
+                Sign Out
+              </button>
+            ) : (
+              <Link to="/auth/sign-in" className="text-white hover:underline">
+                Sign In
               </Link>
-            </div>
+            )}
           </div>
-        </div>
+        </nav>
       </header>
+
       <Outlet />
     </>
   );

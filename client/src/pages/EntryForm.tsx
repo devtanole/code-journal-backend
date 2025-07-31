@@ -6,7 +6,8 @@ import {
   readEntry,
   removeEntry,
   updateEntry,
-} from '../data';
+} from '../lib/data';
+import { MediaUploads } from '../components/MediaUploads';
 
 /**
  * Form that adds or edits an entry.
@@ -45,7 +46,16 @@ export function EntryForm() {
     event.preventDefault();
     try {
       const formData = new FormData(event.currentTarget);
-      const newEntry = Object.fromEntries(formData) as unknown as Entry;
+      // Convert FormData entries to a plain object with string values
+      const dataObj = Object.fromEntries(formData) as Record<string, string>;
+
+      const newEntry: Entry = {
+        title: dataObj.title || '',
+        notes: dataObj.notes || '',
+        photoUrl: dataObj.photoUrl || '',
+        createdAt: new Date().toISOString(),
+      };
+
       if (isEditing) {
         updateEntry({ ...entry, ...newEntry });
       } else {
@@ -83,7 +93,9 @@ export function EntryForm() {
     <div className="container">
       <div className="row">
         <div className="column-full d-flex justify-between">
-          <h1>{isEditing ? 'Edit Entry' : 'New Entry'}</h1>
+          <h1 style={{ padding: '1rem' }}>
+            {isEditing ? 'Edit Entry' : 'New Entry'}
+          </h1>
         </div>
       </div>
       <form onSubmit={handleSubmit}>
@@ -93,6 +105,7 @@ export function EntryForm() {
               className="input-b-radius form-image"
               src={photoUrl || '/images/placeholder-image-square.jpg'}
               alt="entry"
+              style={{ position: 'relative', right: '85px' }}
             />
           </div>
           <div className="column-half">
@@ -107,16 +120,18 @@ export function EntryForm() {
               />
             </label>
             <label className="margin-bottom-1 d-block">
-              Photo URL
-              <input
-                name="photoUrl"
-                defaultValue={entry?.photoUrl ?? ''}
-                required
-                className="input-b-color text-padding input-b-radius purple-outline input-height margin-bottom-2 d-block width-100"
-                type="text"
-                onChange={(e) => setPhotoUrl(e.target.value)}
+              Upload Photo
+              <MediaUploads
+                onUpload={(url) => {
+                  setPhotoUrl(url);
+                }}
+                onPreview={(previewUrl) => {
+                  setPhotoUrl(previewUrl);
+                }}
+                disabled={isLoading}
               />
             </label>
+            <input type="hidden" name="photoUrl" value={photoUrl ?? ''} />
           </div>
         </div>
         <div className="row margin-bottom-1">
