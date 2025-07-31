@@ -3,7 +3,7 @@ A full-stack journaling app that allows users to create, view, update, and delet
 
 Note: This project was originally a pair project during my software engineering bootcamp. I later revisited it independently to refactor the codebase, clean up the UI, and implement final features such as image uploads and improved error handling.
 
-🚀 Features
+🚀 Features: <br>
 🧠 Create, Read, Update, Delete (CRUD) entries
 
 🖼️ Upload photos directly via Cloudinary
